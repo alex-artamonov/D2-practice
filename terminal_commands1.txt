@@ -1,0 +1,318 @@
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 857, in save_base
+    updated = self._save_table(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 1000, in _save_table
+    results = self._do_insert(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 1041, in _do_insert
+    return manager._insert(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1434, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1621, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 103, in execute
+    return super().execute(sql, params)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 89, in _execute                                heck_default_pk', '_check_swappable', '_check_model', '_check_managers', '_check_fields', '_check_m2m_through_same_relationship', '_check_id_field', '_check_field_name_clashes', '_check_column_name_clashes', '_check_model_name_db_lookup_clashes', '_check_property_name_related_field_accessor_clashes', '_check_single_primary_key', '_check_index_together', '_check_unique_together', '_check_indexes', '_check_local_fields', '_check_ordering', '_check_long_column_names', '_get_expr_references', '_check_constraints', '__dict__', '__weakref__', '__getattribute__', '__setattr__', '__delattr__', '__lt__', '__le__', '__ne__', '__gt__', '__
+>>> from news.models import Comment
+>>> cmt1 = Comment.object.create(post = 1, user = 1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'Comment' has no attribute 'object'
+>>> cmt1 = Comment.objects.create(post = 1, user = 1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 512, in create
+    obj = self.model(**kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 541, in __init__
+    _setattr(self, field.name, rel_obj)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py", line 235, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Comment.post" must be a "Post" instance.
+>>> pst1
+<Post: self.title='Модель Author', self.type='ACL'>
+>>> cmt1 = Comment.objects.create(pst1, user = 1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+TypeError: create() takes 1 positional argument but 2 were given
+>>> cmt1 = Comment.objects.create(post = pst1, user = 1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 512, in create
+    obj = self.model(**kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 541, in __init__
+    _setattr(self, field.name, rel_obj)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/fields/related_descriptors.py", line 235, in __set__
+    raise ValueError(
+ValueError: Cannot assign "1": "Comment.user" must be a "User" instance.
+>>> User.objects.get(id = 1)
+<User: иван_петров>
+>>> usr1 = User.objects.get(id = 1)
+>>> usr2 = User.objects.get(id = 2)
+>>> cmt1 = Comment.objects.create(post = pst1, user = usr1)
+>>> cmt1.text = '''Создать двух пользователей (с помощью метода User.objects.create_user).'''
+>>> cmt1.save()
+>>> 
+
+ Session contents restored from 7/30/2022 at 9:45:26 PM 
+
+alex@alex-mint:~/Projects/skillfactory/D2-practice$ . ../D1/venv/bin/activate
+(venv) alex@alex-mint:~/Projects/skillfactory/D2-practice$ python manage.py dbshell
+SQLite version 3.31.1 2020-01-27 19:55:54
+Enter ".help" for usage hints.
+sqlite> .quit
+(venv) alex@alex-mint:~/Projects/skillfactory/D2-practice$ python manage.py shell
+Python 3.8.10 (default, Mar 15 2022, 12:22:08) 
+[GCC 9.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> 
+
+ Session contents restored from 7/30/2022 at 11:50:45 PM 
+
+alex@alex-mint:~/Projects/skillfactory/D2-practice$ . ../D1/venv/bin/activate
+(venv) alex@alex-mint:~/Projects/skillfactory/D2-practice$ python manage.py dbshell
+SQLite version 3.31.1 2020-01-27 19:55:54
+Enter ".help" for usage hints.
+sqlite> .quit
+(venv) alex@alex-mint:~/Projects/skillfactory/D2-practice$ python manage.py shell
+Python 3.8.10 (default, Mar 15 2022, 12:22:08) 
+[GCC 9.4.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> pst1
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'pst1' is not defined
+>>> from news.model import PostCategory
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+ModuleNotFoundError: No module named 'news.model'
+>>> from news.models import PostCategory
+>>> from news.models import Category
+>>> from news.models import Post
+>>> pst1 = Post.objects.get(id=4)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 496, in get
+    raise self.model.DoesNotExist(
+news.models.Post.DoesNotExist: Post matching query does not exist.
+>>> pst1 = Post.objects.get()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 499, in get
+    raise self.model.MultipleObjectsReturned(
+news.models.Post.MultipleObjectsReturned: get() returned more than one Post -- it returned 3!
+>>> pst1 = Post.objects.get('id=4')
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 482, in get
+    clone = self._chain() if self.query.combinator else self.filter(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1071, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1089, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1096, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1502, in add_q
+    clause, _ = self._add_q(q_object, self.used_aliases)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1532, in _add_q
+    child_clause, needed_inner = self.build_filter(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/sql/query.py", line 1374, in build_filter
+    arg, value = filter_expr
+ValueError: too many values to unpack (expected 2)
+>>> pst1 = Post.objects.get(id = 4)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 496, in get
+    raise self.model.DoesNotExist(
+news.models.Post.DoesNotExist: Post matching query does not exist.
+>>> pst1 = Post.objects.get(id = 3)
+>>> print(pst1)
+self.title='Модель Post', self.type='NWS'
+>>> pst1.id
+3
+>>> pst1.text
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Post' object has no attribute 'text'
+>>> pst1.content
+''
+>>> pst1.content = '''В ходе этого модуля вы шаг за шагом изучали принципы построения баз данных и создания моделей, а также размышляли над собственным приложением NewsPaper. Итоговое задание этого модуля заключается в создании этого приложения (пока что только моделей).'''
+>>> pst1.content
+'В ходе этого модуля вы шаг за шагом изучали принципы построения баз данных и создания моделей, а также размышляли над собственным приложением NewsPaper. Итоговое задание этого модуля заключается в создании этого приложения (пока что только моделей).'
+>>> pst1.save()
+>>> pst1.content
+'В ходе этого модуля вы шаг за шагом изучали принципы построения баз данных и создания моделей, а также размышляли над собственным приложением NewsPaper. Итоговое задание этого модуля заключается в создании этого приложения (пока что только моделей).'
+>>> Category.objects.all
+<bound method BaseManager.all of <django.db.models.manager.Manager object at 0x7fe4eb3599a0>>
+>>> Category.objects.all()
+<QuerySet [<Category: reading>, <Category: gardening>, <Category: fly-fishing>, <Category: woodworking>, <Category: django>, <Category: python>]>
+>>> cat4 = Category.objects.get(id=4)
+>>> cat4
+<Category: woodworking>
+>>> pst_cat = PostCategory.objects.create(post = pst1, category = cat4)
+>>> cat4.id
+4
+>>> pst_cat = PostCategory.objects.create(post = pst1, category = cat4)
+>>> pst_cat = PostCategory.objects.create(post = pst1, category = cat4)
+>>> pst1
+<Post: self.title='Модель Post', self.type='NWS'>
+>>> pst1.id
+3
+>>> pst2 = Post.objects(id=2)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+TypeError: 'Manager' object is not callable
+>>> pst2 = Post.objects.get(id=2)
+>>> pst2.id
+2
+>>> pst3 = Post.objects.get(id=1)
+>>> pst3.id
+1
+>>> Post.objects.all
+<bound method BaseManager.all of <django.db.models.manager.Manager object at 0x7fe4eb34e280>>
+>>> Post.objects.all()
+<QuerySet [<Post: self.title='Модель Author', self.type='ACL'>, <Post: self.title='Модель Category', self.type='ACL'>, <Post: self.title='Модель Post', self.type='NWS'>]>
+>>> Post.objects.all().count
+<bound method QuerySet.count of <QuerySet [<Post: self.title='Модель Author', self.type='ACL'>, <Post: self.title='Модель Category', self.type='ACL'>, <Post: self.title='Модель Post', self.type='NWS'>]>>
+>>> Post.objects.all().count()
+3
+>>> cmt1 = Comment.objects.create(post=pst1)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'Comment' is not defined
+>>> from news.models import Comment
+>>> cmt1 = Comment.objects.create(post=pst1)
+Traceback (most recent call last):
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/sqlite3/base.py", line 477, in execute
+    return Database.Cursor.execute(self, query, params)
+sqlite3.IntegrityError: NOT NULL constraint failed: news_comment.user_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 514, in create
+    obj.save(force_insert=True, using=self.db)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 806, in save
+    self.save_base(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 857, in save_base
+    updated = self._save_table(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 1000, in _save_table
+    results = self._do_insert(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/base.py", line 1041, in _do_insert
+    return manager._insert(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/query.py", line 1434, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/models/sql/compiler.py", line 1621, in execute_sql
+    cursor.execute(sql, params)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 103, in execute
+    return super().execute(sql, params)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 67, in execute
+    return self._execute_with_wrappers(
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 80, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/utils.py", line 89, in _execute
+    return self.cursor.execute(sql, params)
+  File "/home/alex/Projects/skillfactory/D1/venv/lib/python3.8/site-packages/django/db/backends/sqlite3/base.py", line 477, in execute
+    return Database.Cursor.execute(self, query, params)
+django.db.utils.IntegrityError: NOT NULL constraint failed: news_comment.user_id
+>>> cmt1 = Comment.objects.create(post=pst1, user_id=1)
+>>> cmt1 = Comment.objects.create(post=pst2, user_id=1)
+>>> cmt1 = Comment.objects.create(post=pst3, user_id=2)
+>>> cmt1 = Comment.objects.create(post=pst2, user_id=2)
+>>> cmt2 = Comment.objects.get(id=2)
+>>> cmt2.text
+''
+>>> cmt2.text = "Создать два объекта модели Author, связанные с пользователями."
+>>> cmt3 = Comment.objects.get(id=3)
+>>> cmt3.text = "Добавить 4 категории в модель Category."
+>>> cmt1.text
+''
+>>> cmt.text = "Добавить 2 статьи и 1 новость."
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'cmt' is not defined
+>>> cmt1.text = "Добавить 2 статьи и 1 новость."
+>>> cmt2.text
+'Создать два объекта модели Author, связанные с пользователями.'
+>>> cmt3.text
+'Добавить 4 категории в модель Category.'
+>>> cmt4.text
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+NameError: name 'cmt4' is not defined
+>>> cmt4 = Comment.objects.get(id=4)
+>>> cmt4.text
+''
+>>> cmt4.text = "Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий)."
+>>> cmt3.save()
+>>> cmt1.save()
+>>> cmt2.save()
+>>> cmt4.save()
+>>> cmt1.id
+5
+>>> cmt2.id
+2
+>>> Comment.objects.all.count()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'function' object has no attribute 'count'
+>>> Comment.objects.all().count()
+5
+>>> cmt1.like()
+>>> cmt1.like()
+>>> cmt2.like()
+>>> cmt3.dislike()
+>>> cmt4.dislike()
+>>> cmt1.save()
+>>> cmt2.save()
+>>> cmt3.save()
+>>> cmt4.save()
+>>> cmt5 = Comment.objects.get(id=1)
+>>> cmt5
+<Comment: Comment object (1)>
+>>> cmt5.like()
+>>> cmt5.like()
+>>> cmt5.like()
+>>> cmt5.like()
+>>> cmt5.save*(
+... ;
+  File "<console>", line 2
+    ;
+    ^
+SyntaxError: invalid syntax
+>>> cmt5.save()
+>>> 

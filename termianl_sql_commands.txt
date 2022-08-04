@@ -1,0 +1,243 @@
+2       5       2
+3       5       3
+4       2       3
+5       2       3
+sqlite> delete * news_postcategory where id = 5
+   ...> ;
+Error: near "*": syntax error
+sqlite> delete * from news_postcategory where id = 5;
+Error: near "*": syntax error
+sqlite> delete news_postcategory where id = 5;
+Error: near "news_postcategory": syntax error
+sqlite> delete from news_postcategory where id = 5;
+sqlite> select * from news_postcategory;
+id      category_id     post_id
+1       6       1
+2       5       2
+3       5       3
+4       2       3
+sqlite> insert into news_postcategory (category_id, post_id) values (3, 2); 
+sqlite> select * from news_postcategory;
+id      category_id     post_id
+1       6       1
+2       5       2
+3       5       3
+4       2       3
+6       3       2
+sqlite> select * from news_comment;
+sqlite> select count(*) from news_comment;
+count(*)
+0
+sqlite> select * from auth_user;
+id      password        last_login      is_superuser    username        last_name       email   is_staff    is_active  date_joined     first_name
+1       !NNsfp2eUZd2opGPKQDlzrJUheXrBxL3Y4bcBDbxo               0       иван_петров     Петров  ivan@petrov.ru       0  1       2022-07-27 19:31:33.574538      Иван
+2       !bWDbWrSqCw35qkHHSUmcYtlbsT4DwG5Zc8AeYDz3               0       петр_иванов     Иванов  petr@ivanov.ru       0  1       2022-07-27 19:33:00.903455      Петр
+sqlite> 
+
+ Session contents restored from 7/30/2022 at 9:45:26 PM 
+
+alex@alex-mint:~/Projects/skillfactory/D2-practice$ . ../D1/venv/bin/activate
+(venv) alex@alex-mint:~/Projects/skillfactory/D2-practice$ python manage.py dbshell
+SQLite version 3.31.1 2020-01-27 19:55:54
+Enter ".help" for usage hints.
+sqlite> .show
+        echo: off
+         eqp: off
+     explain: auto
+     headers: off
+        mode: list
+   nullvalue: ""
+      output: stdout
+colseparator: "|"
+rowseparator: "\n"
+       stats: off
+       width: 
+    filename: /home/alex/Projects/skillfactory/D2-practice/db.sqlite3
+sqlite> .mode sdf
+Error: mode should be one of: ascii column csv html insert line list quote tabs tcl
+sqlite> .mode column
+sqlite> .headers on
+sqlite> .tables
+auth_group                  django_migrations         
+auth_group_permissions      django_session            
+auth_permission             news_author               
+auth_user                   news_category             
+auth_user_groups            news_comment              
+auth_user_user_permissions  news_post                 
+django_admin_log            news_postcategory         
+django_content_type       
+sqlite> select * from news_category;
+id          name      
+----------  ----------
+1           reading   
+2           gardening 
+3           fly-fishin
+4           woodworkin
+5           django    
+6           python    
+sqlite> .show
+        echo: off
+         eqp: off
+     explain: auto
+     headers: on
+        mode: column
+   nullvalue: ""
+      output: stdout
+colseparator: "|"
+rowseparator: "\n"
+       stats: off
+       width: 
+    filename: /home/alex/Projects/skillfactory/D2-practice/db.sqlite3
+sqlite> select * from news_comment;
+id          text                                                                     created_dtm                 rating      post_id     user_id   
+----------  -----------------------------------------------------------------------  --------------------------  ----------  ----------  ----------
+1           Создать двух пользователей (с помощью метода User.objects.create_user).  2022-07-30 18:45:16.564103  0           1           1         
+sqlite> select rating, post_id, user_id from news_comment;
+rating      post_id     user_id   
+----------  ----------  ----------
+0           1           1         
+sqlite> select text from news_comment;
+text                                                                   
+-----------------------------------------------------------------------
+Создать двух пользователей (с помощью метода User.objects.create_user).
+sqlite> 
+
+ Session contents restored from 7/30/2022 at 11:50:45 PM 
+
+alex@alex-mint:~/Projects/skillfactory/D2-practice$ . ../D1/venv/bin/activate
+(venv) alex@alex-mint:~/Projects/skillfactory/D2-practice$ python manage.py dbshell
+SQLite version 3.31.1 2020-01-27 19:55:54
+Enter ".help" for usage hints.
+sqlite> .tables
+auth_group                  django_migrations         
+auth_group_permissions      django_session            
+auth_permission             news_author               
+auth_user                   news_category             
+auth_user_groups            news_comment              
+auth_user_user_permissions  news_post                 
+django_admin_log            news_postcategory         
+django_content_type       
+sqlite> select count(*) from news_post;
+3
+sqlite> select * from news_postcategory;
+1|6|1
+2|5|2
+3|5|3
+4|2|3
+6|3|2
+7|4|3
+sqlite> .headers on
+sqlite> select * from news_postcategory;
+id|category_id|post_id
+1|6|1
+2|5|2
+3|5|3
+4|2|3
+6|3|2
+7|4|3
+sqlite> select * from news_category where id = 6;
+id|name
+6|python
+sqlite> select count(*) from news_category;
+count(*)
+6
+sqlite> delete from category where id in (5, 6);
+Error: no such table: category
+sqlite> delete from news_category where id in (5, 6);
+sqlite> select count(*) from news_category;
+count(*)
+4
+sqlite> select * from news_postcategory;
+id|category_id|post_id
+1|6|1
+2|5|2
+3|5|3
+4|2|3
+6|3|2
+7|4|3
+sqlite> select * from news_postcategory where category_id in (5, 6);
+id|category_id|post_id
+2|5|2
+3|5|3
+1|6|1
+sqlite> delete from news_postcategory where category_id in (5, 6);
+sqlite> select * from news_postcategory where category_id in (5, 6);
+sqlite> select * from news_postcategory;
+id|category_id|post_id
+4|2|3
+6|3|2
+7|4|3
+sqlite> insert into news_postcategory (category_id, post_id) values (1, 1);
+sqlite> select * from news_postcategory;
+id|category_id|post_id
+4|2|3
+6|3|2
+7|4|3
+8|1|1
+sqlite> insert into news_postcategory (category_id, post_id) values (3, 1);
+sqlite> select * from news_postcategory;
+id|category_id|post_id
+4|2|3
+6|3|2
+7|4|3
+8|1|1
+9|3|1
+sqlite> select * from news_postcategory;
+id|category_id|post_id
+4|2|3
+6|3|2
+7|4|3
+8|1|1
+9|3|1
+10|4|3
+11|4|3
+sqlite> delete from news_postcategory where id in (10, 11);
+sqlite> select * from news_postcategory;
+id|category_id|post_id
+4|2|3
+6|3|2
+7|4|3
+8|1|1
+9|3|1
+sqlite> select count(*) from news_comment;
+count(*)
+1
+sqlite> select * from news_comment;
+id|text|created_dtm|rating|post_id|user_id
+1|Создать двух пользователей (с помощью метода User.objects.create_user).|2022-07-30 18:45:16.564103|0|1|1
+sqlite> select * from auth_user;
+id|password|last_login|is_superuser|username|last_name|email|is_staff|is_active|date_joined|first_name
+1|!NNsfp2eUZd2opGPKQDlzrJUheXrBxL3Y4bcBDbxo||0|иван_петров|Петров|ivan@petrov.ru|0|1|2022-07-27 19:31:33.574538|Иван
+2|!bWDbWrSqCw35qkHHSUmcYtlbsT4DwG5Zc8AeYDz3||0|петр_иванов|Иванов|petr@ivanov.ru|0|1|2022-07-27 19:33:00.903455|Петр
+sqlite> select count(*) from auth_user;
+count(*)
+2
+sqlite> select * from news_comment;
+id|text|created_dtm|rating|post_id|user_id
+1|Создать двух пользователей (с помощью метода User.objects.create_user).|2022-07-30 18:45:16.564103|0|1|1
+2|Создать два объекта модели Author, связанные с пользователями.|2022-08-04 17:27:10.464088|0|3|1
+3|Добавить 4 категории в модель Category.|2022-08-04 17:26:58.937128|0|2|1
+4|Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).|2022-08-04 17:27:17.318810|0|1|2
+5|Добавить 2 статьи и 1 новость.|2022-08-04 17:27:05.159468|0|2|2
+sqlite> select id, created_dtm, post_id, user_id from news_comment;
+id|created_dtm|post_id|user_id
+1|2022-07-30 18:45:16.564103|1|1
+2|2022-08-04 17:27:10.464088|3|1
+3|2022-08-04 17:26:58.937128|2|1
+4|2022-08-04 17:27:17.318810|1|2
+5|2022-08-04 17:27:05.159468|2|2
+sqlite> select id, created_dtm, post_id, user_id, rating from news_comment;
+id|created_dtm|post_id|user_id|rating
+1|2022-07-30 18:45:16.564103|1|1|0
+2|2022-08-04 17:31:15.318232|3|1|1
+3|2022-08-04 17:31:19.287538|2|1|-1
+4|2022-08-04 17:31:25.149535|1|2|-1
+5|2022-08-04 17:31:10.026214|2|2|2
+sqlite> select id, created_dtm, post_id, user_id, rating from news_comment;
+id|created_dtm|post_id|user_id|rating
+1|2022-08-04 17:33:10.165310|1|1|4
+2|2022-08-04 17:31:15.318232|3|1|1
+3|2022-08-04 17:31:19.287538|2|1|-1
+4|2022-08-04 17:31:25.149535|1|2|-1
+5|2022-08-04 17:31:10.026214|2|2|2
+sqlite> 

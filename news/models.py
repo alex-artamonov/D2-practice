@@ -33,6 +33,7 @@ class Post(m.Model):
     title = m.CharField(max_length=255)
     content = m.TextField()
     categories = m.ManyToManyField(Category, through='PostCategory')
+    rating = m.SmallIntegerField(default=0)
 
     def __str__(self) -> str:
         return f"{self.title=}, {self.type=}"
@@ -40,9 +41,17 @@ class Post(m.Model):
     def preview(self):
         return self.content[:124] + '...'
 
+    def like(self):
+        self.rating += 1
+
+    def dislike(self):
+        self.rating -= 1
+
 class PostCategory(m.Model):
     post = m.ForeignKey(Post, on_delete=m.CASCADE)
     category = m.ForeignKey(Category, on_delete=m.CASCADE)
+
+
 
 class Comment(m.Model):
     post = m.ForeignKey(Post, on_delete=m.CASCADE)
